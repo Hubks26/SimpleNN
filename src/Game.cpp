@@ -1,6 +1,6 @@
 #include "Game.h"
 
-const sf::Time Game::m_timePerFrame = sf::seconds(1.f/60.f);
+const sf::Time Game::m_timePerFrame = sf::seconds(1.f/10.f);
 
 Game::Game()
 : m_window(sf::VideoMode(1000, 500), "Neural Network")

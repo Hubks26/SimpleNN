@@ -4,10 +4,8 @@ NeuralNetwork::NeuralNetwork()
 {
 	std::vector<Layer> layers;
 	
-	layers.push_back(Layer(4));
-	layers.push_back(Layer(2));
-	layers.push_back(Layer(2));
-	layers.push_back(Layer(2));
+	layers.push_back(Layer(1));
+	layers.push_back(Layer(1));
 	layers.push_back(Layer(1));
 	
 	m_layers = layers;
