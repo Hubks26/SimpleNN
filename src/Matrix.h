@@ -3,21 +3,28 @@
 
 #include <math.h>
 #include <vector>
+#include <iostream>
 
 class Matrix
 {
 public :
 	
 	Matrix(std::size_t, std::size_t);
+	Matrix(std::vector<float>, bool);
 	
-	void setCoeff(std::size_t, std::size_t, float);
+	void setCoeff(std::size_t, std::size_t, const float);
 	float getCoeff(std::size_t, std::size_t) const;
 	std::size_t row() const;
 	std::size_t col() const;
 	
 	Matrix operator+(const Matrix&) const;
 	Matrix operator*(const Matrix&) const;
+	void operator-=(const Matrix&);
 	
+	Matrix transposee() const;
+	Matrix diag() const;
+	
+	void constMult(float);
 	void applySigmo();
 	void applySigmoPrime();
 	

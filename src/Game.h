@@ -22,6 +22,9 @@ private :
 	static const sf::Time m_timePerFrame;
 	
 	NeuralNetwork m_nn;
+	Matrix m_input;
+	Matrix m_output;
+	bool m_parite;
 };
 
 #endif //GAME_H

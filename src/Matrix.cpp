@@ -7,7 +7,33 @@ Matrix::Matrix(std::size_t row, std::size_t col)
 {
 }
 
-void Matrix::setCoeff(std::size_t i, std::size_t j, float newValue)
+Matrix::Matrix(std::vector<float> values, bool isDiag = false)
+{
+	if(isDiag)
+	{
+		m_row = values.size();
+		m_col = values.size();
+		m_mat = std::vector<std::vector<float>>(m_row, std::vector<float>(m_col, 0.f));
+		
+		for(std::size_t i = 0; i < m_row; ++i)
+		{
+			m_mat[i][i] = values[i];
+		}
+	}
+	else
+	{
+		m_row = values.size();
+		m_col = 1;
+		m_mat = std::vector<std::vector<float>>(m_row, std::vector<float>(m_col, 0.f));
+		
+		for(std::size_t i = 0; i < m_row; ++i)
+		{
+			m_mat[i][0] = values[i];
+		}
+	}
+}
+
+void Matrix::setCoeff(std::size_t i, std::size_t j, const float newValue)
 {
 	m_mat[i][j] = newValue;
 }
@@ -94,6 +120,41 @@ Matrix Matrix::operator*(const Matrix& B) const
 	return(mat);
 }
 
+void Matrix::operator-=(const Matrix& B){
+	std::size_t rowA = m_row;
+	std::size_t colA = m_col;
+	std::size_t rowB = B.row();
+	std::size_t colB = B.col();
+	
+	if (rowA != rowB || colA != colB)
+	{
+		std::cout << rowA << " " << rowB << " " << colA << " " << colB << std::endl;
+		throw std::runtime_error ("Matrix::operator-= - wrong dimensions");
+	}
+	
+	std::size_t row = rowA;
+	std::size_t col = colA;
+	
+	for(std::size_t i = 0; i < row; ++i)
+	{
+		for(std::size_t j = 0; j < col; ++j)
+		{
+			m_mat[i][j] -= B.getCoeff(i, j);
+		}
+	}
+}
+
+void Matrix::constMult(float c)
+{
+	for(std::size_t i = 0; i < m_row; ++i)
+	{
+		for(std::size_t j = 0; j < m_col; ++j)
+		{
+			m_mat[i][j] = c * m_mat[i][j];
+		}
+	}
+}
+
 void Matrix::applySigmo()
 {
 	for(std::size_t i = 0; i < m_row; ++i)
@@ -115,6 +176,36 @@ void Matrix::applySigmoPrime()
 			m_mat[i][j] = sigmo * (1 - sigmo);
 		}
 	}
+}
+
+Matrix Matrix::transposee() const
+{
+	Matrix newMat(m_col, m_row);
+	
+	for (std::size_t i = 0; i < m_row; ++i)
+	{
+		for (std::size_t j = 0; j < m_col; ++j)
+		{
+			newMat.setCoeff(j, i, m_mat[i][j]);
+		}
+	}
+	
+	return(newMat);
+}
+
+Matrix Matrix::diag() const
+{
+	if (m_col != 1)
+		throw std::runtime_error ("Matrix::diag - wrong dimensions");
+	
+	std::vector<float> vect;
+	for(std::size_t i = 0; i < m_row; ++i)
+	{
+		vect.push_back(getCoeff(i, 0));
+	}
+	Matrix res(vect, true);
+	
+	return(res);
 }
 
 void Matrix::disp() const //Debug function

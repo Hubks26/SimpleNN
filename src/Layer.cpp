@@ -2,7 +2,7 @@
 
 Layer::Layer(std::size_t size)
 : m_size(size)
-, m_neurons(m_size, Neuron(0.3f, 0.f))
+, m_neurons(m_size, Neuron(0.f, 0.f))
 , m_position(0.f)
 {
 }
@@ -10,6 +10,48 @@ Layer::Layer(std::size_t size)
 std::size_t Layer::size() const
 {
 	return(m_size);
+}
+
+Matrix Layer::getBiaisMatrix() const
+{
+	Matrix res(m_size, 1);
+	
+	for(std::size_t i = 0; i < m_size; ++i)
+	{
+		res.setCoeff(i, 0, m_neurons[i].getBiais());
+	}
+	
+	return(res);
+}
+
+Matrix Layer::getValueMatrix() const
+{
+	Matrix res(m_size, 1);
+	
+	for(std::size_t i = 0; i < m_size; ++i)
+	{
+		res.setCoeff(i, 0, m_neurons[i].getValue());
+	}
+	
+	return(res);
+}
+
+void Layer::operator-=(const Matrix& B)
+{
+	for(std::size_t i = 0; i < B.row(); ++i)
+	{
+		m_neurons[i].setBiais(m_neurons[i].getBiais() - B.getCoeff(i, 0));
+	}
+}
+
+void Layer::setNeuronValue(std::size_t i, float value)
+{
+	m_neurons[i].setValue(value);
+}
+
+void Layer::setNeuronBiais(std::size_t i, float biais)
+{
+	m_neurons[i].setBiais(biais);
 }
 
 void Layer::setPosition(float x)
@@ -31,7 +73,7 @@ void Layer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		float neuronValue = m_neurons[i].getValue();
 		
 		circle.setPosition(m_position, (i+1)*target.getSize().y/(m_size+1));
-		circle.setFillColor(sf::Color(int(neuronValue*250), int(neuronValue*250), int(neuronValue*250)));
+		circle.setFillColor(sf::Color(0, int(neuronValue*255), 0));
 		
 		target.draw(circle, states);
 	}

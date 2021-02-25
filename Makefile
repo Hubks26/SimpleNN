@@ -19,11 +19,14 @@ $(O)/Game.o: $(O)/NeuralNetwork.o
 $(O)/NeuralNetwork.o: $(O)/Layer.o
 	$(CC) $(S)/NeuralNetwork.cpp -c -o $(O)/NeuralNetwork.o $(STD) $(FLAGS)
 
-$(O)/Layer.o: $(O)/Neuron.o
+$(O)/Layer.o: $(O)/Neuron.o $(O)/Matrix.o
 	$(CC) $(S)/Layer.cpp -c -o $(O)/Layer.o $(STD) $(FLAGS)
 
 $(O)/Neuron.o:
 	$(CC) $(S)/Neuron.cpp -c -o $(O)/Neuron.o $(STD) $(FLAGS)
+
+$(O)/Matrix.o:
+	$(CC) $(S)/Matrix.cpp -c -o $(O)/Matrix.o $(STD) $(FLAGS)
 
 clean: $(O) $(B)
 	rm -r $(O)

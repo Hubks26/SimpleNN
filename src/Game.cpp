@@ -1,10 +1,13 @@
 #include "Game.h"
 
-const sf::Time Game::m_timePerFrame = sf::seconds(1.f/10.f);
+const sf::Time Game::m_timePerFrame = sf::seconds(1.f/2.f);
 
 Game::Game()
 : m_window(sf::VideoMode(1000, 500), "Neural Network")
 , m_nn()//std::vector<Layer>(5, Layer(25)))
+, m_input(4, 1)
+, m_output(1, 1)
+, m_parite(false)
 {
 }
 
@@ -41,6 +44,34 @@ void Game::processEvents()
 
 void Game::update()
 {
+	m_input.setCoeff(0, 0, 0.f);
+	m_input.setCoeff(1, 0, 0.f);
+	m_input.setCoeff(2, 0, 0.f);
+	m_input.setCoeff(3, 0, 0.f);
+	if(m_parite)
+	{
+		m_input.setCoeff(0, 0, 1.f);
+		m_input.setCoeff(1, 0, 1.f);
+		m_input.setCoeff(2, 0, 1.f);
+		m_input.setCoeff(3, 0, 0.f);
+		m_output.setCoeff(0, 0, 1.f);
+		
+		m_nn.feedForward(m_input);
+		m_nn.backPropagation(m_output);
+	}
+	else
+	{
+		m_input.setCoeff(0, 0, 0.f);
+		m_input.setCoeff(1, 0, 0.f);
+		m_input.setCoeff(2, 0, 1.f);
+		m_input.setCoeff(3, 0, 0.f);
+		m_output.setCoeff(0, 0, 0.f);
+		
+		m_nn.feedForward(m_input);
+		m_nn.backPropagation(m_output);
+	}
+	
+	m_parite = not m_parite;
 }
 
 void Game::render()

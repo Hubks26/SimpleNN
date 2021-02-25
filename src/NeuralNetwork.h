@@ -8,7 +8,10 @@ class NeuralNetwork : public sf::Drawable
 public :
 	
 	NeuralNetwork();
-	NeuralNetwork(std::vector<Layer>);
+	NeuralNetwork(std::vector<Layer*>);
+	
+	Matrix feedForward(const Matrix&) const;
+	void backPropagation(const Matrix&);
 	
 private :
 	
@@ -16,7 +19,8 @@ private :
 	
 private :
 	
-	std::vector<Layer> m_layers;
+	std::vector<Layer*> m_layers;
+	std::vector<Matrix*> m_weights;
 };
 
 #endif // NEURALNETWORK_H

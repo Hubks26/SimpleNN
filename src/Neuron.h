@@ -8,6 +8,9 @@ public :
 	Neuron(float value, float biais);
 	
 	float getValue() const;
+	float getBiais() const;
+	void setValue(float);
+	void setBiais(float);
 	
 private :
 	
