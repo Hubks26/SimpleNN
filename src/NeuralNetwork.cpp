@@ -6,9 +6,10 @@ NeuralNetwork::NeuralNetwork()
 	
 	// ARCHITECHTURE DU RESEAU
 	
+	layers.push_back(new Layer(1));
+	layers.push_back(new Layer(3));
 	layers.push_back(new Layer(4));
-	layers.push_back(new Layer(4));
-// 	layers.push_back(new Layer(2));
+ 	layers.push_back(new Layer(3));
 	layers.push_back(new Layer(1));
 	
 	// #######################
@@ -17,60 +18,51 @@ NeuralNetwork::NeuralNetwork()
 	
 	std::vector<Matrix*> weights;
 	
-	for(std::size_t i = 0; i < m_layers.size()-1; ++i)
+	for(std::size_t k = 0; k < m_layers.size()-1; ++k)
 	{
-		Matrix* mat = new Matrix(m_layers[i+1]->size(), m_layers[i]->size());
+		Matrix* mat = new Matrix(m_layers[k+1]->size(), m_layers[k]->size());
+		
+		for(std::size_t i = 0; i < mat->row(); ++i)
+		{
+			for(std::size_t j = 0; j < mat->col(); ++j)
+			{
+				mat->setCoeff(i, j, ((float)rand() / (float)RAND_MAX) * 2 - 1);
+			}
+		}
+		
 		weights.push_back(mat);
 	}
 	
 	m_weights = weights;
 	
-	Matrix input(4,1);
+	Matrix input(1,1);
 	Matrix output(1,1);
 	
-	for(int i = 0; i < 10000; ++i)
+	for(int i = 0; i < 100000; ++i)
 	{
-		input.setCoeff(0, 0, 0.f);
-		input.setCoeff(1, 0, 0.f);
-		input.setCoeff(2, 0, 0.f);
-		input.setCoeff(3, 0, 1.f);
-		output.setCoeff(0, 0, 1.f);
-		
-		feedForward(input);
-		backPropagation(output);
-		
-		input.setCoeff(0, 0, 0.f);
-		input.setCoeff(1, 0, 0.f);
-		input.setCoeff(2, 0, 1.f);
-		input.setCoeff(3, 0, 1.f);
+		input.setCoeff(0, 0, 1.f);
 		output.setCoeff(0, 0, 0.f);
 		
 		feedForward(input);
 		backPropagation(output);
 		
 		input.setCoeff(0, 0, 0.f);
-		input.setCoeff(1, 0, 1.f);
-		input.setCoeff(2, 0, 1.f);
-		input.setCoeff(3, 0, 1.f);
 		output.setCoeff(0, 0, 1.f);
 		
 		feedForward(input);
 		backPropagation(output);
 		
-		input.setCoeff(0, 0, 1.f);
-		input.setCoeff(1, 0, 0.f);
-		input.setCoeff(2, 0, 1.f);
-		input.setCoeff(3, 0, 0.f);
-		output.setCoeff(0, 0, 0.f);
+		input.setCoeff(0, 0, 0.4);
+		output.setCoeff(0, 0, 0.3);
 		
 		feedForward(input);
 		backPropagation(output);
 		
-		input.setCoeff(0, 0, 1.f);
-		input.setCoeff(1, 0, 1.f);
-		input.setCoeff(2, 0, 1.f);
-		input.setCoeff(3, 0, 1.f);
-		output.setCoeff(0, 0, 1.f);
+		input.setCoeff(0, 0, 0.6);
+		output.setCoeff(0, 0, 0.7);
+		
+		feedForward(input);
+		backPropagation(output);
 	}
 }
 
@@ -79,7 +71,7 @@ NeuralNetwork::NeuralNetwork(std::vector<Layer*> layers)
 {
 }
 
-Matrix NeuralNetwork::feedForward(const Matrix& input) const // Pour l'instant on ne prend pas en compte le biais
+Matrix NeuralNetwork::feedForward(const Matrix& input) const
 {
 	std::size_t n1 = m_layers[0]->size();
 	
@@ -217,28 +209,28 @@ void NeuralNetwork::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 				float colorLevel = m_weights[i]->getCoeff(k, j);
 				if(colorLevel > 0.f)
 				{
-					if(int(20.f * colorLevel) >= 255)
+					if(int(40.f * colorLevel) >= 255)
 					{
 						lines[0].color = sf::Color(255, 0, 0);
 						lines[1].color = sf::Color(255, 0, 0);
 					}
 					else
 					{
-						lines[0].color = sf::Color(int(20.f * colorLevel), 0, 0);
-						lines[1].color = sf::Color(int(20.f * colorLevel), 0, 0);
+						lines[0].color = sf::Color(int(40.f * colorLevel), 0, 0);
+						lines[1].color = sf::Color(int(40.f * colorLevel), 0, 0);
 					}
 				}
 				if(colorLevel <= 0.f)
 				{
-					if(int(-20.f * colorLevel) >= 255)
+					if(int(-40.f * colorLevel) >= 255)
 					{
 						lines[0].color = sf::Color(0, 0, 255);
 						lines[1].color = sf::Color(0, 0, 255);
 					}
 					else
 					{
-						lines[0].color = sf::Color(0, 0, int(-20.f * colorLevel));
-						lines[1].color = sf::Color(0, 0, int(-20.f * colorLevel));
+						lines[0].color = sf::Color(0, 0, int(-40.f * colorLevel));
+						lines[1].color = sf::Color(0, 0, int(-40.f * colorLevel));
 					}
 				}
 				

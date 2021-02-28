@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <random>
 
 class Layer : public sf::Drawable
 {

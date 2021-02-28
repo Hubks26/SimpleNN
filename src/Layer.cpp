@@ -2,7 +2,7 @@
 
 Layer::Layer(std::size_t size)
 : m_size(size)
-, m_neurons(m_size, Neuron(0.f, 0.f))
+, m_neurons(m_size, Neuron(0.f, ((float)rand() / (float)RAND_MAX) * 2 - 1))
 , m_position(0.f)
 {
 }
@@ -62,7 +62,7 @@ void Layer::setPosition(float x)
 void Layer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::CircleShape circle;
-	circle.setRadius(10.f);
+	circle.setRadius(25.f);
 	circle.setOutlineColor(sf::Color::White);
 	circle.setOutlineThickness(1.f);
 	sf::FloatRect rect = circle.getLocalBounds();

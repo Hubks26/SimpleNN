@@ -24,7 +24,7 @@ private :
 	NeuralNetwork m_nn;
 	Matrix m_input;
 	Matrix m_output;
-	bool m_parite;
+	int m_parite;
 };
 
 #endif //GAME_H

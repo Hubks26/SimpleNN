@@ -1,13 +1,13 @@
 #include "Game.h"
 
-const sf::Time Game::m_timePerFrame = sf::seconds(1.f/2.f);
+const sf::Time Game::m_timePerFrame = sf::seconds(1.f/1.f);
 
 Game::Game()
-: m_window(sf::VideoMode(1000, 500), "Neural Network")
+: m_window(sf::VideoMode(3000, 1500), "Neural Network")
 , m_nn()//std::vector<Layer>(5, Layer(25)))
-, m_input(4, 1)
+, m_input(1, 1)
 , m_output(1, 1)
-, m_parite(false)
+, m_parite(0)
 {
 }
 
@@ -45,33 +45,43 @@ void Game::processEvents()
 void Game::update()
 {
 	m_input.setCoeff(0, 0, 0.f);
-	m_input.setCoeff(1, 0, 0.f);
-	m_input.setCoeff(2, 0, 0.f);
-	m_input.setCoeff(3, 0, 0.f);
-	if(m_parite)
-	{
-		m_input.setCoeff(0, 0, 1.f);
-		m_input.setCoeff(1, 0, 1.f);
-		m_input.setCoeff(2, 0, 1.f);
-		m_input.setCoeff(3, 0, 0.f);
-		m_output.setCoeff(0, 0, 1.f);
-		
-		m_nn.feedForward(m_input);
-		m_nn.backPropagation(m_output);
-	}
-	else
+
+	if(m_parite%5 == 0)
 	{
 		m_input.setCoeff(0, 0, 0.f);
-		m_input.setCoeff(1, 0, 0.f);
-		m_input.setCoeff(2, 0, 1.f);
-		m_input.setCoeff(3, 0, 0.f);
-		m_output.setCoeff(0, 0, 0.f);
+		std::cout << 1 << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
+		//m_nn.backPropagation(m_output);
+	}
+	if(m_parite%5 == 1)
+	{
 		
-		m_nn.feedForward(m_input);
-		m_nn.backPropagation(m_output);
+		m_input.setCoeff(0, 0, 0.4);
+		std::cout << 0.3 << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
+		//m_nn.backPropagation(m_output);
+	}
+	if(m_parite%5 == 2)
+	{
+		
+		m_input.setCoeff(0, 0, 0.5);
+		std::cout << "?" << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
+		//m_nn.backPropagation(m_output);
+	}
+	if(m_parite%5 == 3)
+	{
+		
+		m_input.setCoeff(0, 0, 0.6);
+		std::cout << 0.7 << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
+		//m_nn.backPropagation(m_output);
+	}
+	if(m_parite%5 == 4)
+	{
+		
+		m_input.setCoeff(0, 0, 1.f);
+		std::cout << 0 << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
+		//m_nn.backPropagation(m_output);
 	}
 	
-	m_parite = not m_parite;
+	++m_parite;
 }
 
 void Game::render()
