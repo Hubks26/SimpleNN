@@ -37,7 +37,7 @@ NeuralNetwork::NeuralNetwork()
 	Matrix input(1,1);
 	Matrix output(1,1);
 	
-	for(int i = 0; i < 2150; ++i)
+	for(int i = 0; i < 10000; ++i)
 	{
 		float cost = 0.f;
 		
