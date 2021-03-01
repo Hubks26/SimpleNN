@@ -7,9 +7,8 @@ NeuralNetwork::NeuralNetwork()
 	// ARCHITECHTURE DU RESEAU
 	
 	layers.push_back(new Layer(1));
-	layers.push_back(new Layer(3));
-	layers.push_back(new Layer(4));
- 	layers.push_back(new Layer(3));
+	layers.push_back(new Layer(30));
+	layers.push_back(new Layer(11));
 	layers.push_back(new Layer(1));
 	
 	// #######################
@@ -38,31 +37,47 @@ NeuralNetwork::NeuralNetwork()
 	Matrix input(1,1);
 	Matrix output(1,1);
 	
-	for(int i = 0; i < 100000; ++i)
+	for(int i = 0; i < 2150; ++i)
 	{
-		input.setCoeff(0, 0, 1.f);
-		output.setCoeff(0, 0, 0.f);
-		
-		feedForward(input);
-		backPropagation(output);
+		float cost = 0.f;
 		
 		input.setCoeff(0, 0, 0.f);
-		output.setCoeff(0, 0, 1.f);
+		output.setCoeff(0, 0, 0.9);
 		
 		feedForward(input);
-		backPropagation(output);
+		cost += backPropagation(output);
+		
+		input.setCoeff(0, 0, 0.2);
+		output.setCoeff(0, 0, 0.1);
+		
+		feedForward(input);
+		cost += backPropagation(output);
 		
 		input.setCoeff(0, 0, 0.4);
-		output.setCoeff(0, 0, 0.3);
+		output.setCoeff(0, 0, 0.9);
 		
 		feedForward(input);
-		backPropagation(output);
+		cost += backPropagation(output);
 		
 		input.setCoeff(0, 0, 0.6);
-		output.setCoeff(0, 0, 0.7);
+		output.setCoeff(0, 0, 0.1);
 		
 		feedForward(input);
-		backPropagation(output);
+		cost += backPropagation(output);
+		
+		input.setCoeff(0, 0, 0.8);
+		output.setCoeff(0, 0, 0.9);
+		
+		feedForward(input);
+		cost += backPropagation(output);
+		
+		input.setCoeff(0, 0, 1.f);
+		output.setCoeff(0, 0, 0.1);
+		
+		feedForward(input);
+		cost += backPropagation(output);
+		
+		std::cout << "COST = " << cost/6.f << std::endl;
 	}
 }
 
@@ -106,7 +121,7 @@ Matrix NeuralNetwork::feedForward(const Matrix& input) const
 	return(output);
 }
 
-void NeuralNetwork::backPropagation(const Matrix& outputExpected)
+float NeuralNetwork::backPropagation(const Matrix& outputExpected)
 {	
 	std::size_t size_layers = m_layers.size();
 	std::size_t size_weights = m_weights.size();
@@ -178,7 +193,7 @@ void NeuralNetwork::backPropagation(const Matrix& outputExpected)
 		cost += (output.getCoeff(i, 0) - outputExpected.getCoeff(i, 0)) * (output.getCoeff(i, 0) - outputExpected.getCoeff(i, 0));
 	}
 	
-	std::cout << "COST : " << cost << std::endl;
+	return(cost);
 }
 
 // void NeuralNetwork::fit()   ### Le but de cette fonction sera de rendre le feed forward et

@@ -1,9 +1,9 @@
 #include "Game.h"
 
-const sf::Time Game::m_timePerFrame = sf::seconds(1.f/1.f);
+const sf::Time Game::m_timePerFrame = sf::seconds(1.f/3.f);
 
 Game::Game()
-: m_window(sf::VideoMode(3000, 1500), "Neural Network")
+: m_window(sf::VideoMode(1200, 600), "Neural Network")
 , m_nn()//std::vector<Layer>(5, Layer(25)))
 , m_input(1, 1)
 , m_output(1, 1)
@@ -46,39 +46,35 @@ void Game::update()
 {
 	m_input.setCoeff(0, 0, 0.f);
 
-	if(m_parite%5 == 0)
+	if(m_parite%6 == 0)
 	{
 		m_input.setCoeff(0, 0, 0.f);
-		std::cout << 1 << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
-		//m_nn.backPropagation(m_output);
+		std::cout << 0 << " -> " << 0.9 << "~" << m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
 	}
-	if(m_parite%5 == 1)
+	if(m_parite%6 == 1)
 	{
-		
+		m_input.setCoeff(0, 0, 0.2);
+		std::cout << 0.2 << " -> " << 0.1 << "~" << m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
+	}
+	if(m_parite%6 == 2)
+	{
 		m_input.setCoeff(0, 0, 0.4);
-		std::cout << 0.3 << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
-		//m_nn.backPropagation(m_output);
+		std::cout << 0.4 << " -> " << 0.9 << "~" << m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
 	}
-	if(m_parite%5 == 2)
+	if(m_parite%6 == 3)
 	{
-		
-		m_input.setCoeff(0, 0, 0.5);
-		std::cout << "?" << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
-		//m_nn.backPropagation(m_output);
-	}
-	if(m_parite%5 == 3)
-	{
-		
 		m_input.setCoeff(0, 0, 0.6);
-		std::cout << 0.7 << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
-		//m_nn.backPropagation(m_output);
+		std::cout << 0.6 << " -> " << 0.1 << "~" << m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
 	}
-	if(m_parite%5 == 4)
+	if(m_parite%6 == 4)
 	{
-		
+		m_input.setCoeff(0, 0, 0.8);
+		std::cout << 0.8 << " -> " << 0.9 << "~" << m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
+	}
+	if(m_parite%6 == 5)
+	{
 		m_input.setCoeff(0, 0, 1.f);
-		std::cout << 0 << " -> "<< m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
-		//m_nn.backPropagation(m_output);
+		std::cout << 1 << " -> " << 0.1 << "~" << m_nn.feedForward(m_input).getCoeff(0, 0) << std::endl;
 	}
 	
 	++m_parite;

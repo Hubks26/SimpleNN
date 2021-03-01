@@ -11,7 +11,7 @@ public :
 	NeuralNetwork(std::vector<Layer*>);
 	
 	Matrix feedForward(const Matrix&) const;
-	void backPropagation(const Matrix&);
+	float backPropagation(const Matrix&);
 	
 private :
 	

@@ -62,7 +62,7 @@ void Layer::setPosition(float x)
 void Layer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::CircleShape circle;
-	circle.setRadius(25.f);
+	circle.setRadius(10.f);
 	circle.setOutlineColor(sf::Color::White);
 	circle.setOutlineThickness(1.f);
 	sf::FloatRect rect = circle.getLocalBounds();
